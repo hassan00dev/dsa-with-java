@@ -10,6 +10,7 @@ public class SelectionSort {
 
     /**
      * Avoid unnecessary swapping
+     * Left to Right
      * @param arr
      */
     private static void sort(int[] arr){
