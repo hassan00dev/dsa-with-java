@@ -133,6 +133,72 @@ class BinaryTree {
         return depth;
     }
 
+    public static int heightByQueue2(Node root)
+    {
+
+        // Initialising a variable to count the
+        // height of tree
+        Queue<Node> q = new LinkedList<Node>();
+        q.add(root);
+        int height = 0;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                Node temp = q.poll();
+                if (temp.left != null) {
+                    q.add(temp.left);
+                }
+                if (temp.right != null) {
+                    q.add(temp.right);
+                }
+            }
+            height++;
+        }
+        return height;
+    }
+
+    public static int findHeight(Node root)
+    {
+        int height = 0;
+        Node current = root;
+        while (current != null) {
+            if (current.left == null) {
+                // If left subtree is null, move to right
+                // subtree
+                current = current.right;
+                height++; // Increment the height of the
+                // tree
+            }
+            else {
+                // Find the inorder predecessor of current
+                // node
+                Node pre = current.left;
+                while (pre.right != null
+                        && pre.right != current)
+                    pre = pre.right;
+
+                if (pre.right == null) {
+                    // Make current node the right child of
+                    // its inorder predecessor
+                    pre.right = current;
+                    current = current.left;
+                }
+                else {
+                    // If the right child of the inorder
+                    // predecessor already points to the
+                    // current node, then we have traversed
+                    // the left subtree and its inorder
+                    // traversal is complete.
+                    pre.right = null;
+                    current
+                            = current.right; // Move to the
+                    // right subtree
+                }
+            }
+        }
+        return height;
+    }
+
     public static void main(String[] args) {
         BinaryTree tree = new BinaryTree();
 
