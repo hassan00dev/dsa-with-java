@@ -9,10 +9,10 @@ import java.util.Queue;
 import java.util.Stack;
 
 public class Graph {
-    public class Node {
+    public class Vertex {
         private String label;
 
-        public Node(String label) {
+        public Vertex(String label) {
             super();
             this.label = label;
         }
@@ -21,13 +21,13 @@ public class Graph {
         public String toString() {
             return label;
         }
-    }//Node
+    }//Vertex
 
     public class Edge{
-        private Node from;
-        private Node to;
+        private Vertex from;
+        private Vertex to;
 
-        public Edge(Graph.Node from, Graph.Node to) {
+        public Edge(Graph.Vertex from, Graph.Vertex to) {
             super();
             this.from = from;
             this.to = to;
@@ -41,25 +41,25 @@ public class Graph {
     }
 
     int count;
-    HashMap<String, Node> nodes = new HashMap<String, Node>();
-    HashMap<Node, ArrayList<Node>> adjList = new HashMap<Node, ArrayList<Node>>();
+    HashMap<String, Vertex> Vertexes = new HashMap<String, Vertex>();
+    HashMap<Vertex, ArrayList<Vertex>> adjList = new HashMap<Vertex, ArrayList<Vertex>>();
 
-    public void addNode(String name) {
-        Node n = new Node(name);
-        nodes.putIfAbsent(name, n);
-        adjList.putIfAbsent(n, new ArrayList<Node>());
-//		count++;
+    public void addVertex(String name) {
+        Vertex n = new Vertex(name);
+        Vertexes.putIfAbsent(name, n);
+        adjList.putIfAbsent(n, new ArrayList<Vertex>());
+		count++;
     }
 
     public void addEdge(String from, String to) {
-        Node nFrom = nodes.get(from);
+        Vertex nFrom = Vertexes.get(from);
         if(nFrom == null) {
-            System.out.println("Node not present in list");
+            System.out.println("Vertex not present in list");
             return;
         }
-        Node tFrom = nodes.get(to);
+        Vertex tFrom = Vertexes.get(to);
         if(tFrom == null) {
-            System.out.println("Node not present in list");
+            System.out.println("Vertex not present in list");
             return;
         }
 
@@ -67,19 +67,19 @@ public class Graph {
     }
 
     public void print() {
-        for(Node cur : adjList.keySet()) {
-            ArrayList<Node> res = adjList.get(cur);
+        for(Vertex cur : adjList.keySet()) {
+            ArrayList<Vertex> res = adjList.get(cur);
             if(!res.isEmpty()) {
                 System.out.println(cur+" is connected with "+res);
             }
         }
     }
     public void BFS(String label) {
-        Node cur = nodes.get(label);
+        Vertex cur = Vertexes.get(label);
         if(cur == null) return;
 
-        HashSet<Node> visited = new HashSet<>();
-        Queue<Node> queue = new ArrayDeque<>();
+        HashSet<Vertex> visited = new HashSet<>();
+        Queue<Vertex> queue = new ArrayDeque<>();
 
         queue.add(cur);
 
@@ -90,9 +90,9 @@ public class Graph {
 
             System.out.println(current);
             visited.add(current);
-            for(Node neighbours : adjList.get(current)) {
-                if(!visited.contains(neighbours)) {
-                    queue.add(neighbours);
+            for(Vertex neighbour : adjList.get(current)) {
+                if(!visited.contains(neighbour)) {
+                    queue.add(neighbour);
                 }
             }//for
 
@@ -100,11 +100,11 @@ public class Graph {
     }//BFS
 
     public void DFS(String label) {
-        Node cur = nodes.get(label);
+        Vertex cur = Vertexes.get(label);
         if(cur == null) return;
 
-        HashSet<Node> visited = new HashSet<>();
-        Stack<Node> st = new Stack<>();
+        HashSet<Vertex> visited = new HashSet<>();
+        Stack<Vertex> st = new Stack<>();
 
         st.add(cur);
 
@@ -115,7 +115,7 @@ public class Graph {
 
             System.out.println(current);
             visited.add(current);
-            for(Node neighbours : adjList.get(current)) {
+            for(Vertex neighbours : adjList.get(current)) {
                 if(!visited.contains(neighbours)) {
                     st.push(neighbours);
                 }
@@ -126,13 +126,12 @@ public class Graph {
 
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         Graph g = new Graph();
-        g.addNode("A");
-        g.addNode("B");
-        g.addNode("C");
-        g.addNode("D");
-        g.addNode("E");
+        g.addVertex("A");
+        g.addVertex("B");
+        g.addVertex("C");
+        g.addVertex("D");
+        g.addVertex("E");
 
         g.addEdge("A", "B");
         g.addEdge("C", "A");
@@ -144,7 +143,8 @@ public class Graph {
         g.BFS("A");
         System.out.println();
         g.DFS("A");
-//		g.print();
+
+        g.print();
     }
 
 }
