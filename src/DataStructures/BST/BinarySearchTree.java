@@ -33,36 +33,31 @@ class BinarySearchTree
     }
 
     /* A recursive function to insert a new key in BST */
-    Node deleteRec(Node root, int key)
+    Node deleteRec(Node node, int key)
     {
-        /* Base Case: If the tree is empty */
-        if (root == null) return root;
+        if (node == null) return node;
 
-        /* Otherwise, recur down the tree */
-        if (key < root.key)
-            root.left = deleteRec(root.left, key);
-        else if (key > root.key)
-            root.right = deleteRec(root.right, key);
-
-            // if key is same as root's key, then This is the node
-            // to be deleted
+        if (key < node.key)
+            node.left = deleteRec(node.left, key);
+        else if (key > node.key)
+            node.right = deleteRec(node.right, key);
         else
         {
             // node with only one child or no child
-            if (root.left == null)
-                return root.right;
-            else if (root.right == null)
-                return root.left;
+            if (node.left == null)
+                return node.right;
+            else if (node.right == null)
+                return node.left;
 
             // node with two children: Get the inorder successor (smallest
             // in the right subtree)
-            root.key = minValue(root.right);
+            node.key = minValue(node.right);
 
             // Delete the inorder successor
-            root.right = deleteRec(root.right, root.key);
+            node.right = deleteRec(node.right, node.key);
         }
 
-        return root;
+        return node;
     }
 
     int minValue(Node root)
@@ -127,10 +122,10 @@ class BinarySearchTree
         BinarySearchTree tree = new BinarySearchTree();
 
 		/* Let us create following BST
-			50
+		  50
 		/	 \
-		30	 70
-		/ \ / \
+		30	   70
+		/ \    / \
 		20 40 60 80 */
         tree.insert(50);
         tree.insert(30);
