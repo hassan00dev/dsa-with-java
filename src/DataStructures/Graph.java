@@ -3,13 +3,30 @@ package DataStructures;
 import java.util.*;
 
 public class Graph {
-    public class Node{
-        public int data;
-    }
 
-    public class Edge{
-        public Node start;
-        public Node end;
+    void bfs(Map<Integer, HashSet<Integer>> graph, int v)
+    {
+        Map<Integer, Boolean> visited = new HashMap<Integer, Boolean>();
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+
+        Map.Entry<Integer, HashSet<Integer>> entry = graph.entrySet().iterator().next();
+        int key = entry.getKey();
+        Set<Integer> value = entry.getValue();
+
+        visited.put(key,true);
+        queue.add(key);
+
+        while (!queue.isEmpty()) {
+            Integer vertex = queue.poll();
+            System.out.print(vertex + " ");
+
+            for (Integer neighbor : graph.get(vertex)) {
+                if (!visited.get(neighbor)) {
+                    visited.put(neighbor, true);
+                    queue.add(neighbor);
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
