@@ -16,6 +16,28 @@ class Node {
 class BinaryTree {
     Node root;
 
+    public static Node insert(Node node, int data)
+    {
+
+        /* 1. If the tree is empty, return a new,
+                single node */
+        if (node == null) {
+            return new Node(data);
+        }
+        else {
+
+            /* 2. Otherwise, recur down the tree */
+            if (data <= node.data) {
+                node.left = insert(node.left, data);
+            } else {
+                node.right = insert(node.right, data);
+            }
+
+            /* return the (unchanged) node pointer */
+            return node;
+        }
+    }
+
     public void addNode(int data) {
         Node newNode = new Node(data);
 
@@ -54,15 +76,15 @@ class BinaryTree {
     }
     public void inOrderTraversal(Node focusNode) {
         if (focusNode != null) {
-            preOrderTraversal(focusNode.left);
+            inOrderTraversal(focusNode.left);
             System.out.print(focusNode.data + " ");
-            preOrderTraversal(focusNode.right);
+            inOrderTraversal(focusNode.right);
         }
     }
     public void postOrderTraversal(Node focusNode) {
         if (focusNode != null) {
-            preOrderTraversal(focusNode.left);
-            preOrderTraversal(focusNode.right);
+            postOrderTraversal(focusNode.left);
+            postOrderTraversal(focusNode.right);
             System.out.print(focusNode.data + " ");
         }
     }
@@ -92,15 +114,15 @@ class BinaryTree {
             printCurrentLevel(root, i);
     }
 
-    void printCurrentLevel(Node root, int level)
+    void printCurrentLevel(Node node, int level)
     {
-        if (root == null)
+        if (node == null)
             return;
         if (level == 1)
-            System.out.print(root.data + " ");
+            System.out.print(node.data + " ");
         else if (level > 1) {
-            printCurrentLevel(root.left, level - 1);
-            printCurrentLevel(root.right, level - 1);
+            printCurrentLevel(node.left, level - 1);
+            printCurrentLevel(node.right, level - 1);
         }
     }
 
@@ -199,17 +221,39 @@ class BinaryTree {
         return height;
     }
 
+    public int minValue(){
+        Node current = this.root;
+        while(current.left != null){
+            current = current.left;
+        }
+        return current.data;
+    }
+    public int maxValue(){
+        Node current = this.root;
+        while(current.right != null){
+            current = current.right;
+        }
+        return current.data;
+    }
+
     public static void main(String[] args) {
         BinaryTree tree = new BinaryTree();
 
-        tree.addNode(50);
-        tree.addNode(25);
-        tree.addNode(75);
-        tree.addNode(12);
-        tree.addNode(37);
-        tree.addNode(43);
-        tree.addNode(30);
+        tree.addNode(2);
+        tree.addNode(1);
+        tree.addNode(10);
+        tree.addNode(9);
+        tree.addNode(15);
+        tree.addNode(-2);
+        tree.addNode(-7);
+        tree.addNode(-8);
+
+        System.out.println("Height: " + tree.height(tree.root));
+        System.out.println("Min Value: " + tree.minValue());
+        System.out.println("Max Value: " + tree.maxValue());
 
         tree.levelOrderTraversal();
+
+
     }
 }
